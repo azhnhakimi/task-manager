@@ -97,7 +97,11 @@ const Form = () => {
 		setTodoList([...todoList, newTodoItem]);
 
 		// Save the updated to-do list to Local Storage
-		localStorage.setItem("todoItems", JSON.stringify(todoList));
+		// localStorage.setItem("todoItems", JSON.stringify(todoList));
+		localStorage.setItem(
+			"todoItems",
+			JSON.stringify([...todoList, newTodoItem])
+		);
 
 		// Clear the input field after adding the item
 		setNewItem("");
