@@ -1,0 +1,161 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap");
+
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+.mainContainer {
+	background-color: #f5f5f5;
+	width: 95%;
+	max-width: 500px;
+	min-height: 600px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 0.8em;
+	border-radius: 0.3rem;
+	margin: 2rem 0;
+}
+
+h1 {
+	font-family: "Ubuntu", sans-serif;
+	margin: 0.5rem auto;
+}
+
+.inputGroup {
+	display: flex;
+	align-items: center;
+	margin: 1rem auto;
+	width: 350px;
+}
+
+.input {
+	min-height: 50px;
+	flex: 1;
+	padding: 0 1rem;
+	color: #000;
+	font-size: 1rem;
+	border: 3px solid #5e4dcd;
+	border-radius: 6px 0 0 6px;
+	background-color: transparent;
+	font-family: "Ubuntu", sans-serif;
+}
+
+.buttonSubmit {
+	min-height: 50px;
+	padding: 0.5em 1em;
+	border: none;
+	border-radius: 0 6px 6px 0;
+	background-color: #5e4dcd;
+	color: #fff;
+	font-size: 1rem;
+	font-family: "Ubuntu", sans-serif;
+}
+
+.buttonSubmit:hover {
+	cursor: pointer;
+}
+
+.input:focus,
+.input:focus-visible {
+	outline: none;
+}
+
+.todoList {
+	width: 90%;
+}
+
+.deleteIcon {
+	width: 1.3rem;
+	height: 1.3rem;
+}
+
+.editIcon {
+	width: 1.5rem;
+	height: 1.5rem;
+}
+
+.deleteIcon,
+.editIcon,
+.tickIcon,
+.cancelIcon {
+	transition: all 0.2s;
+}
+
+.deleteIcon:hover,
+.editIcon:hover,
+.tickIcon:hover,
+.cancelIcon:hover {
+	cursor: pointer;
+	transform: scale(1.2);
+}
+
+.todoList li {
+	list-style: none;
+	background-color: #5e4dcd;
+	color: #fff;
+	padding: 0.8em;
+	font-family: "Ubuntu", sans-serif;
+	font-size: 1rem;
+	margin: 0.5rem auto;
+	border-radius: 0.3rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	min-height: 3rem;
+	height: 3rem;
+	width: 100%;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	white-space: normal;
+}
+
+.iconContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	margin-left: 1.3rem;
+}
+
+.tickIcon {
+	width: 1.3rem;
+	height: 1.3rem;
+}
+
+.cancelIcon {
+	width: 1rem;
+	height: 1rem;
+}
+
+.editInput {
+	background-color: #5e4dcd;
+	color: #fff;
+	font-family: "Ubuntu", sans-serif;
+	font-size: 1rem;
+	border: none;
+	width: 100%;
+}
+
+.editInput:focus,
+.editInput:focus-visible {
+	outline: none;
+}
+
+li.selected {
+	text-decoration: line-through;
+	position: relative;
+}
+
+li.selected::before {
+	position: absolute;
+	content: "";
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 0.3rem;
+	background-color: rgba(0, 0, 0, 0.4);
+}

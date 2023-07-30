@@ -1,0 +1,29 @@
+* {
+	padding: 0;
+	margin: 0;
+}
+
+body,
+#root {
+	width: 100%;
+	min-height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: linear-gradient(
+		135deg,
+		rgba(3, 42, 59, 1) 0%,
+		rgba(19, 117, 118, 1) 100%
+	);
+	background-repeat: no-repeat;
+}
+
+::-webkit-scrollbar {
+	width: 12px; /* Set the width of the scrollbar */
+	background-color: #000000; /* Set the color of the scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: rgba(36, 102, 212, 1);
+	border-radius: 0.3rem;
+}
