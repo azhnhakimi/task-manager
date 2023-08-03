@@ -24,12 +24,21 @@ h1 {
 	margin: 0.5rem auto;
 }
 
+form {
+	/* background-color: red; */
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 .inputGroup {
 	display: flex;
 	align-items: center;
-	margin: 1rem 1rem;
+	width: 95%;
 	max-width: 350px;
-	width: 90%;
+	/* background-color: pink; */
+	margin: 1rem 0;
 }
 
 .input {
