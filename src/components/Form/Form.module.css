@@ -27,8 +27,9 @@ h1 {
 .inputGroup {
 	display: flex;
 	align-items: center;
-	margin: 1rem auto;
-	width: 350px;
+	margin: 1rem 1rem;
+	max-width: 350px;
+	width: 90%;
 }
 
 .input {
@@ -64,7 +65,7 @@ h1 {
 }
 
 .todoList {
-	width: 90%;
+	width: 100%;
 }
 
 .deleteIcon {
