@@ -25,11 +25,12 @@ h1 {
 }
 
 form {
-	/* background-color: red; */
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	padding: 0 1em;
+	margin: 1rem 0;
 }
 
 .inputGroup {
@@ -37,8 +38,6 @@ form {
 	align-items: center;
 	width: 95%;
 	max-width: 350px;
-	/* background-color: pink; */
-	margin: 1rem 0;
 }
 
 .input {
@@ -51,6 +50,7 @@ form {
 	border-radius: 6px 0 0 6px;
 	background-color: transparent;
 	font-family: "Ubuntu", sans-serif;
+	width: 95%;
 }
 
 .buttonSubmit {
