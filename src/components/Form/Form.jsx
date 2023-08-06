@@ -195,22 +195,24 @@ const Form = () => {
 	const handleDragStart = (event, id) => {
 		// When starting to drag an item, set the dragged item's ID to the dataTransfer object
 		event.dataTransfer.setData("text/plain", id);
+		event.currentTarget.classList.add(styles.dragging);
 	};
 
-	const handleDragOver = (event) => {
+	const handleDragOver = (event, index) => {
 		event.preventDefault();
 	};
 
 	const handleDrop = (event, targetId) => {
 		event.preventDefault();
-		const draggedItemId = event.dataTransfer.getData("text");
+		const draggedItemId = parseInt(event.dataTransfer.getData("text"));
 
 		// Find the indexes of the dragged item and the target item
 		const draggedItemIndex = todoList.findIndex(
 			(item) => item.id === draggedItemId
 		);
+
 		const targetItemIndex = todoList.findIndex(
-			(item) => item.id === targetId
+			(item) => item.id == targetId
 		);
 
 		// Do nothing if the item is dropped onto itself
@@ -220,6 +222,7 @@ const Form = () => {
 
 		// Create a new array with the items in the desired order
 		const updatedTodoList = Array.from(todoList);
+
 		updatedTodoList.splice(
 			targetItemIndex,
 			0,
@@ -228,6 +231,10 @@ const Form = () => {
 
 		setTodoList(updatedTodoList);
 		localStorage.setItem("todoItems", JSON.stringify(updatedTodoList));
+	};
+
+	const handleDragEnd = (event) => {
+		event.currentTarget.classList.remove(styles.dragging);
 	};
 
 	return (
@@ -253,7 +260,7 @@ const Form = () => {
 				</form>
 
 				<ul className={styles.todoList}>
-					{todoList.map((item) => (
+					{todoList.map((item, index) => (
 						<li
 							key={item.id}
 							className={
@@ -264,8 +271,9 @@ const Form = () => {
 							onDragStart={(event) =>
 								handleDragStart(event, item.id)
 							}
-							onDragOver={handleDragOver}
+							onDragOver={(event) => handleDragOver(event, index)}
 							onDrop={(event) => handleDrop(event, item.id)}
+							onDragEnd={(event) => handleDragEnd(event)}
 						>
 							{editedItemId === item.id ? (
 								<input

@@ -169,3 +169,7 @@ li.selected::before {
 	border-radius: 0.3rem;
 	background-color: rgba(0, 0, 0, 0.4);
 }
+
+li.dragging {
+	background-color: #5143ab;
+}
