@@ -22,9 +22,6 @@ const Form = () => {
 	//
 	const [editedItemId, setEditedItemId] = useState(null);
 
-	//
-	const [selectedItemIds, setSelectedItemIds] = useState([]);
-
 	// Used to auto focus on the input element in edit mode
 	const editInputRef = useRef(null);
 
@@ -130,18 +127,19 @@ const Form = () => {
 	// Function to toggle the selection of an item
 	const handleToggleItem = (id) => {
 		if (editedItemId !== null) {
-			return;
+			// return;		-- can make changes here to implement different actions
+			setEditedItemId(null);
 		}
 
-		setSelectedItemIds((prevSelectedItemIds) => {
-			// Check if the ID is already in the selected item array
-			const isSelected = prevSelectedItemIds.includes(id);
+		setTodoList((prevTodoList) => {
+			const updatedList = prevTodoList.map((item) =>
+				item.id === id ? { ...item, completed: !item.completed } : item
+			);
 
-			// If the ID is already selected, remove it from the array
-			// Otherwise, add it to the array
-			return isSelected
-				? prevSelectedItemIds.filter((itemId) => itemId !== id)
-				: [...prevSelectedItemIds, id];
+			// Save the updated to-do list to Local Storage
+			localStorage.setItem("todoItems", JSON.stringify(updatedList));
+
+			return updatedList;
 		});
 	};
 
@@ -259,11 +257,9 @@ const Form = () => {
 						<li
 							key={item.id}
 							className={
-								selectedItemIds.includes(item.id)
-									? styles.selected
-									: ""
+								item.completed === true ? styles.selected : ""
 							}
-							onClick={() => handleToggleItem(item.id)}
+							onClick={() => handleToggleItem(item.id, item)}
 							draggable={editedItemId === null} // Make the item draggable only when not in edit mode
 							onDragStart={(event) =>
 								handleDragStart(event, item.id)
