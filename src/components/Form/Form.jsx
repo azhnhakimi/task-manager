@@ -198,7 +198,7 @@ const Form = () => {
 		event.currentTarget.classList.add(styles.dragging);
 	};
 
-	const handleDragOver = (event, index) => {
+	const handleDragOver = (event) => {
 		event.preventDefault();
 	};
 
@@ -260,7 +260,7 @@ const Form = () => {
 				</form>
 
 				<ul className={styles.todoList}>
-					{todoList.map((item, index) => (
+					{todoList.map((item) => (
 						<li
 							key={item.id}
 							className={
@@ -271,7 +271,9 @@ const Form = () => {
 							onDragStart={(event) =>
 								handleDragStart(event, item.id)
 							}
-							onDragOver={(event) => handleDragOver(event, index)}
+							onDragOver={(event) =>
+								handleDragOver(event, item.id)
+							}
 							onDrop={(event) => handleDrop(event, item.id)}
 							onDragEnd={(event) => handleDragEnd(event)}
 						>
