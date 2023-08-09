@@ -13,13 +13,13 @@ const Form = () => {
 	// Used for the new items to be added to the to-do list
 	const [newItem, setNewItem] = useState("");
 
-	//
+	//  Used to store the text content of the item that is currently being edited
 	const [updatingItem, setUpdatingItem] = useState("");
 
 	// Used to store all the items in the to-do list
 	const [todoList, setTodoList] = useState([]);
 
-	//
+	//  Used to keep track of the item that is currently being edited
 	const [editedItemId, setEditedItemId] = useState(null);
 
 	// Used to auto focus on the input element in edit mode
@@ -37,7 +37,7 @@ const Form = () => {
 		}
 	}, []);
 
-	//
+	// Auto focuses on input element when entering edit mode
 	useEffect(() => {
 		if (editedItemId !== null && editInputRef.current !== null) {
 			editInputRef.current.focus();
@@ -117,9 +117,9 @@ const Form = () => {
 		localStorage.setItem("todoItems", JSON.stringify(updatedTodoList));
 	};
 
+	// Handles when user hits the Enter button in edit mode
 	const handleEditKeyDown = (event, id) => {
 		if (event.keyCode === 13) {
-			// If the Enter key is pressed, save the edit
 			handleUpdateItem(event);
 		}
 	};
@@ -127,7 +127,6 @@ const Form = () => {
 	// Function to toggle the selection of an item
 	const handleToggleItem = (id) => {
 		if (editedItemId !== null) {
-			// return;		-- can make changes here to implement different actions
 			setEditedItemId(null);
 		}
 
