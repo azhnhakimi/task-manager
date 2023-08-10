@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import ContextMenu from "../ContextMenu/ContextMenu";
 import styles from "./Form.module.css";
 import editIcon from "../../assets/edit.svg";
 import deleteIcon from "../../assets/delete.svg";
@@ -21,6 +22,8 @@ const Form = () => {
 
 	//  Used to keep track of the item that is currently being edited
 	const [editedItemId, setEditedItemId] = useState(null);
+
+	const [contextMenuPos, setContextMenuPos] = useState(null);
 
 	// Used to auto focus on the input element in edit mode
 	const editInputRef = useRef(null);
@@ -68,6 +71,16 @@ const Form = () => {
 			document.removeEventListener("click", handleClickOutside);
 		};
 	}, [editedItemId]);
+
+	useEffect(() => {
+		// Add the event listener when the component mounts
+		document.addEventListener("click", handleContextMenuClose);
+
+		// Clean up the event listener when the component unmounts
+		return () => {
+			document.removeEventListener("click", handleContextMenuClose);
+		};
+	}, [contextMenuPos]);
 
 	////////////////////////////////////////////////////////////////////
 
@@ -153,6 +166,7 @@ const Form = () => {
 	// Function to start editing an item
 	const handleEditItem = (event, id) => {
 		event.stopPropagation();
+		handleContextMenuClose();
 		setEditedItemId(id);
 		const selectedItem = todoList.find((item) => item.id === id);
 		if (selectedItem) {
@@ -236,6 +250,22 @@ const Form = () => {
 		event.currentTarget.classList.remove(styles.dragging);
 	};
 
+	const handleContextMenu = (event, completed, id) => {
+		if (completed || editedItemId) {
+			return;
+		}
+		event.preventDefault();
+		const xPos = event.pageX;
+		const yPos = event.pageY;
+		setContextMenuPos({ xPos, yPos, id }); // Set the id along with xPos and yPos
+	};
+
+	const handleContextMenuClose = () => {
+		if (contextMenuPos) {
+			setContextMenuPos(null);
+		}
+	};
+
 	return (
 		<>
 			<div className={styles.mainContainer}>
@@ -275,6 +305,13 @@ const Form = () => {
 							}
 							onDrop={(event) => handleDrop(event, item.id)}
 							onDragEnd={(event) => handleDragEnd(event)}
+							onContextMenu={(event) =>
+								handleContextMenu(
+									event,
+									item.completed,
+									item.id
+								)
+							}
 						>
 							{editedItemId === item.id ? (
 								<input
@@ -331,6 +368,13 @@ const Form = () => {
 									</>
 								)}
 							</div>
+							{contextMenuPos &&
+								contextMenuPos.id === item.id && (
+									<ContextMenu
+										xPos={contextMenuPos.xPos}
+										yPos={contextMenuPos.yPos}
+									/>
+								)}
 						</li>
 					))}
 				</ul>
