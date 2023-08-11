@@ -2,9 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 import ContextMenu from "../ContextMenu/ContextMenu";
 import styles from "./Form.module.css";
 import editIcon from "../../assets/edit.svg";
+import editIconBlack from "../../assets/edit-black.svg";
 import deleteIcon from "../../assets/delete.svg";
+import deleteIconBlack from "../../assets/delete-black.svg";
 import tickIcon from "../../assets/tick.svg";
+import tickIconBlack from "../../assets/tick-black.svg";
 import cancelIcon from "../../assets/cancel.svg";
+import cancelIconBlack from "../../assets/cancel-black.svg";
+import { getTextColorBasedOnBackgroundColor } from "../../helpers.js";
 
 const Form = () => {
 	////////////////////////////////////////////////////////////////////
@@ -101,6 +106,7 @@ const Form = () => {
 			id: Date.now(), // Using the timestamp as a simple unique ID
 			text: newItem,
 			completed: false,
+			color: "iris",
 		};
 
 		// Add the new to-do item to the existing list
@@ -266,6 +272,17 @@ const Form = () => {
 		}
 	};
 
+	const contextClick = (event) => {
+		event.stopPropagation();
+		const text = event.target.title.toLowerCase();
+		const updatedTodoList = todoList.map((item) =>
+			item.id === contextMenuPos.id ? { ...item, color: text } : item
+		);
+		setTodoList(updatedTodoList);
+		localStorage.setItem("todoItems", JSON.stringify(updatedTodoList));
+		handleContextMenuClose();
+	};
+
 	return (
 		<>
 			<div className={styles.mainContainer}>
@@ -289,94 +306,182 @@ const Form = () => {
 				</form>
 
 				<ul className={styles.todoList}>
-					{todoList.map((item) => (
-						<li
-							key={item.id}
-							className={
-								item.completed === true ? styles.selected : ""
-							}
-							onClick={() => handleToggleItem(item.id, item)}
-							draggable={editedItemId === null} // Make the item draggable only when not in edit mode
-							onDragStart={(event) =>
-								handleDragStart(event, item.id)
-							}
-							onDragOver={(event) =>
-								handleDragOver(event, item.id)
-							}
-							onDrop={(event) => handleDrop(event, item.id)}
-							onDragEnd={(event) => handleDragEnd(event)}
-							onContextMenu={(event) =>
-								handleContextMenu(
-									event,
-									item.completed,
-									item.id
-								)
-							}
-						>
-							{editedItemId === item.id ? (
-								<input
-									type="text"
-									className={styles.editInput}
-									value={updatingItem}
-									onChange={handleUpdateInput}
-									onKeyDown={(event) =>
-										handleEditKeyDown(event, item.id)
-									}
-									ref={editInputRef}
-								/>
-							) : (
-								item.text
-							)}
-							<div className={styles.iconContainer}>
+					{todoList.map((item) => {
+						const backgroundColor = item.color
+							? `var(--${item.color})`
+							: "var(--iris)";
+
+						const textColor =
+							getTextColorBasedOnBackgroundColor(backgroundColor);
+
+						return (
+							<li
+								key={item.id}
+								className={
+									item.completed === true
+										? styles.selected
+										: ""
+								}
+								onClick={() => handleToggleItem(item.id, item)}
+								draggable={editedItemId === null} // Make the item draggable only when not in edit mode
+								onDragStart={(event) =>
+									handleDragStart(event, item.id)
+								}
+								onDragOver={(event) =>
+									handleDragOver(event, item.id)
+								}
+								onDrop={(event) => handleDrop(event, item.id)}
+								onDragEnd={(event) => handleDragEnd(event)}
+								onContextMenu={(event) =>
+									handleContextMenu(
+										event,
+										item.completed,
+										item.id
+									)
+								}
+								style={{
+									backgroundColor: backgroundColor,
+									color: textColor,
+								}}
+							>
 								{editedItemId === item.id ? (
-									<>
-										<img
-											className={styles.cancelIcon}
-											src={cancelIcon}
-											alt="cancel-icon"
-											onClick={(event) => {
-												handleCancelEdit(event);
-											}}
-										/>
-										<img
-											className={styles.tickIcon}
-											src={tickIcon}
-											alt="save-icon"
-											onClick={(event) => {
-												handleUpdateItem(event);
-											}}
-										/>
-									</>
-								) : (
-									<>
-										<img
-											className={styles.editIcon}
-											src={editIcon}
-											alt="edit-icon"
-											onClick={(event) =>
-												handleEditItem(event, item.id)
-											}
-										/>
-										<img
-											className={styles.deleteIcon}
-											src={deleteIcon}
-											alt="delete-icon"
-											onClick={() =>
-												handleDeleteItem(item.id)
-											}
-										/>
-									</>
-								)}
-							</div>
-							{contextMenuPos &&
-								contextMenuPos.id === item.id && (
-									<ContextMenu
-										xPos={contextMenuPos.xPos}
-										yPos={contextMenuPos.yPos}
+									<input
+										type="text"
+										className={styles.editInput}
+										value={updatingItem}
+										onChange={handleUpdateInput}
+										onKeyDown={(event) =>
+											handleEditKeyDown(event, item.id)
+										}
+										ref={editInputRef}
+										style={{
+											backgroundColor: backgroundColor,
+											color: textColor,
+										}}
 									/>
+								) : (
+									item.text
 								)}
-						</li>
-					))}
+								<div className={styles.iconContainer}>
+									{editedItemId === item.id ? (
+										<>
+											{textColor === "white" ? (
+												<img
+													className={
+														styles.cancelIcon
+													}
+													src={cancelIcon}
+													alt="cancel-icon"
+													onClick={(event) => {
+														handleCancelEdit(event);
+													}}
+												/>
+											) : (
+												<img
+													className={
+														styles.cancelIcon
+													}
+													src={cancelIconBlack}
+													alt="cancel-icon"
+													onClick={(event) => {
+														handleCancelEdit(event);
+													}}
+												/>
+											)}
+
+											{textColor === "white" ? (
+												<img
+													className={styles.tickIcon}
+													src={tickIcon}
+													alt="save-icon"
+													onClick={(event) => {
+														handleUpdateItem(event);
+													}}
+												/>
+											) : (
+												<img
+													className={styles.tickIcon}
+													src={tickIconBlack}
+													alt="save-icon"
+													onClick={(event) => {
+														handleUpdateItem(event);
+													}}
+												/>
+											)}
+										</>
+									) : (
+										<>
+											{textColor === "white" ? (
+												<img
+													className={styles.editIcon}
+													src={editIcon}
+													alt="edit-icon"
+													onClick={(event) =>
+														handleEditItem(
+															event,
+															item.id
+														)
+													}
+													style={{ color: textColor }}
+												/>
+											) : (
+												<img
+													className={styles.editIcon}
+													src={editIconBlack}
+													alt="edit-icon"
+													onClick={(event) =>
+														handleEditItem(
+															event,
+															item.id
+														)
+													}
+													style={{ color: textColor }}
+												/>
+											)}
+
+											{textColor === "white" ? (
+												<img
+													className={
+														styles.deleteIcon
+													}
+													src={deleteIcon}
+													alt="delete-icon"
+													onClick={() =>
+														handleDeleteItem(
+															item.id
+														)
+													}
+												/>
+											) : (
+												<img
+													className={
+														styles.deleteIcon
+													}
+													src={deleteIconBlack}
+													alt="delete-icon"
+													onClick={() =>
+														handleDeleteItem(
+															item.id
+														)
+													}
+												/>
+											)}
+										</>
+									)}
+								</div>
+								{contextMenuPos &&
+									contextMenuPos.id === item.id && (
+										<ContextMenu
+											xPos={contextMenuPos.xPos}
+											yPos={contextMenuPos.yPos}
+											handleClick={(event) =>
+												contextClick(event)
+											}
+										/>
+									)}
+							</li>
+						);
+					})}
 				</ul>
 			</div>
 		</>

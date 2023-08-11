@@ -1,3 +1,15 @@
+:root {
+	--colorDimension: 24px;
+	--red: #dc2127;
+	--sandy: #ffb878;
+	--yellow: #fbd75b;
+	--green: #51b749;
+	--turquoise: #46d6db;
+	--blue: #5484ed;
+	--mauve: #dbadff;
+	--iris: #5e4dcd;
+}
+
 * {
 	padding: 0;
 	margin: 0;
@@ -5,5 +17,83 @@
 
 .menu {
 	position: absolute;
-	background-color: red;
+	background-color: #fff;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	z-index: 999;
+	border-radius: 0.3em;
+	gap: 10px;
+	padding: 20px 20px;
+	border: 1px solid #6c6c6c;
+	box-shadow: 0px 5px 16px 0px rgba(0, 0, 0, 0.75);
+	transform-origin: top left;
+}
+
+.upperRow,
+.lowerRow {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+}
+
+.color {
+	width: var(--colorDimension);
+	height: var(--colorDimension);
+	aspect-ratio: 1/1;
+	background-color: #000;
+	border-radius: 0.5rem;
+	transition: 0.2s all;
+}
+
+.color:hover {
+	transform: scale(1.1);
+}
+
+.color:hover::before {
+	content: attr(title);
+	position: absolute;
+	top: -30px;
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: rgba(0, 0, 0, 0.7);
+	color: white;
+	padding: 4px 8px;
+	border-radius: 4px;
+	font-size: 12px;
+	white-space: nowrap;
+}
+
+.red {
+	background-color: var(--red);
+}
+
+.sandy {
+	background-color: var(--sandy);
+}
+
+.yellow {
+	background-color: var(--yellow);
+}
+
+.green {
+	background-color: var(--green);
+}
+
+.turquoise {
+	background-color: var(--turquoise);
+}
+
+.blue {
+	background-color: var(--blue);
+}
+
+.mauve {
+	background-color: var(--mauve);
+}
+
+.iris {
+	background-color: var(--iris);
 }
