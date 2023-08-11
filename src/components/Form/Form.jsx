@@ -275,6 +275,11 @@ const Form = () => {
 	const contextClick = (event) => {
 		event.stopPropagation();
 		const text = event.target.title.toLowerCase();
+
+		if (text === "") {
+			return;
+		}
+
 		const updatedTodoList = todoList.map((item) =>
 			item.id === contextMenuPos.id ? { ...item, color: text } : item
 		);
