@@ -28,6 +28,7 @@ const Form = () => {
 	//  Used to keep track of the item that is currently being edited
 	const [editedItemId, setEditedItemId] = useState(null);
 
+	// Used to keep track of the position of the context menu
 	const [contextMenuPos, setContextMenuPos] = useState(null);
 
 	// Used to auto focus on the input element in edit mode
@@ -77,6 +78,7 @@ const Form = () => {
 		};
 	}, [editedItemId]);
 
+	// Handles when clicking outside with the context menu visible
 	useEffect(() => {
 		// Add the event listener when the component mounts
 		document.addEventListener("click", handleContextMenuClose);
@@ -145,6 +147,10 @@ const Form = () => {
 
 	// Function to toggle the selection of an item
 	const handleToggleItem = (id) => {
+		if (editedItemId === id) {
+			return;
+		}
+
 		if (editedItemId !== null) {
 			setEditedItemId(null);
 		}
@@ -256,8 +262,9 @@ const Form = () => {
 		event.currentTarget.classList.remove(styles.dragging);
 	};
 
+	// Handles the visible appearance of the context menu
 	const handleContextMenu = (event, completed, id) => {
-		if (completed || editedItemId) {
+		if (completed || editedItemId === id) {
 			return;
 		}
 		event.preventDefault();
@@ -278,6 +285,8 @@ const Form = () => {
 
 		if (text === "") {
 			return;
+		} else if (editedItemId !== null) {
+			setEditedItemId(null);
 		}
 
 		const updatedTodoList = todoList.map((item) =>
